@@ -1,0 +1,7 @@
+{
+  "namespace": "sm64_rng",
+  "description": "Mario 64's RNG system, recreated in Minecraft",
+  "pack_format": "15",
+  "target": "main.jmc",
+  "output": "."
+}

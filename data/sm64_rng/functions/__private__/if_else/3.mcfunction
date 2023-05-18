@@ -1,0 +1,1 @@
+scoreboard players set $xor_b __variable__ 33152

@@ -1,0 +1,107 @@
+$seed += 0;
+function power() {
+    // outputs $base ** $exponent
+    $output_pow = 1;
+    for ($i = 0; $i < $exponent; $i++) {
+        $output_pow *= $base;
+    }
+}
+
+class bitwise {
+    function and() {
+        // outputs $and_a & $and_b
+        // intended behavior is only with positive inputs ≤16 bits
+        $output_and = 0;
+        for ($i = 0; $i < 16; $i++) {
+            $base = 2;
+            $exponent = $i;
+            power();
+            $a_bit = $and_a;
+            $a_bit /= $output_pow;
+            $a_bit %= 2;
+            $b_bit = $and_b;
+            $b_bit /= $output_pow;
+            $b_bit %= 2;
+            $a_bit *= $b_bit;
+            $a_bit *= $output_pow;
+            $output_and += $a_bit; 
+        }
+    }
+    function xor() {
+        // outputs $xor_a ^ $xor_b
+        $output_xor = $xor_a;
+        $output_xor += $xor_b;
+        $and_a = $xor_a;
+        $and_b = $xor_b;
+        bitwise.and();
+        $output_xor -= $output_and;
+        $output_xor -= $output_and;
+    }
+    function or() {
+        // outputs $or_a | $or_b
+        $output_or = $or_a;
+        $output_or += $or_b;
+        $and_a = $or_a;
+        $and_b = $or_b;
+        bitwise.and();
+        $output_or -= $output_and;
+    }
+    function reverse() {
+        // only works on 16 bit
+        $and_a = $rev_in;
+        $and_b = 255;
+        bitwise.and();
+        $or_a = $output_and;
+        $or_a *= 256;
+        $and_a = $rev_in;
+        $and_b = 65280;
+        bitwise.and();
+        $or_b = $output_and;
+        $or_b /= 256;
+        bitwise.or();
+        $output_rev = $output_or;
+    }
+}
+
+function main() {
+    if ($seed == 22026) {$seed = 0;}
+    
+    $and_a = $seed;
+    $and_b = 255;
+    bitwise.and();
+    $xor_a = $output_and;
+    $xor_a *= 256;
+    $xor_b = $seed;
+    bitwise.xor();
+    $rng_temp_1 = $output_xor;
+
+    $rev_in = $rng_temp_1;
+    bitwise.reverse();
+    $seed = $output_rev;
+
+    $and_a = $rng_temp_1;
+    $and_b = 255;
+    bitwise.and();
+    $xor_a = $output_and;
+    $xor_a *= 2;
+    $xor_b = $seed;
+    bitwise.xor();
+    $rng_temp_1 = $output_xor;
+
+    $xor_a = $rng_temp_1;
+    $xor_a /= 2;
+    $xor_b = 65408;
+    bitwise.xor();
+    $rng_temp_2 = $output_xor;
+
+    if ($rng_temp_2 == 43605) $seed = 0;
+    else {
+        $xor_a = $rng_temp_2;
+        $even = $rng_temp_1;
+        $even %= 2;
+        if ($even == 0) $xor_b = 8180;
+        else $xor_b = 33152;
+        bitwise.xor();
+        $seed = $output_xor;
+    }
+}
