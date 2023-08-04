@@ -10,22 +10,19 @@ function power() {
 class bitwise {
     function and() {
         // outputs $and_a & $and_b
-        // intended behavior is only with positive inputs ≤16 bits
         $output_and = 0;
-        for ($i = 0; $i < 16; $i++) {
-            $base = 2;
-            $exponent = $i;
-            power();
-            $a_bit = $and_a;
-            $a_bit /= $output_pow;
-            $a_bit %= 2;
-            $b_bit = $and_b;
-            $b_bit /= $output_pow;
-            $b_bit %= 2;
-            $a_bit *= $b_bit;
-            $a_bit *= $output_pow;
-            $output_and += $a_bit; 
-        }
+        if ($and_a <= -1 && $and_b <= -1) $output_and = -2147483648;
+        Hardcode.repeat(
+            "_i_",
+            () => {
+                $and_a *= 2;
+                $and_b *= 2;
+                if ($and_a <= -1 && $and_b <= -1) $output_and += Hardcode.calc(2 ** _i_);
+            },
+            start = 30,
+            stop = -1,
+            step = -1
+        );
     }
     function xor() {
         // outputs $xor_a ^ $xor_b
