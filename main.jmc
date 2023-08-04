@@ -1,11 +1,4 @@
 $seed += 0;
-function power() {
-    // outputs $base ** $exponent
-    $output_pow = 1;
-    for ($i = 0; $i < $exponent; $i++) {
-        $output_pow *= $base;
-    }
-}
 
 class bitwise {
     function and() {
