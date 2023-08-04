@@ -1,6 +1,6 @@
 {
     "pack": {
-        "pack_format": 12,
-        "description": "Mario 64 RNG in Minecraft."
+        "pack_format": 15,
+        "description": "Mario 64's RNG system, recreated in Minecraft"
     }
 }
